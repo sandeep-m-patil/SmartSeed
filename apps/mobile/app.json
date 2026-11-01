@@ -1,0 +1,28 @@
+{
+  "expo": {
+    "name": "SmartSeed",
+    "slug": "smartseed-farmer",
+    "version": "0.1.0",
+    "scheme": "smartseed",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.smartseed.farmer",
+      "infoPlist": { "NSCameraUsageDescription": "SmartSeed uses the camera only to scan the QR code on a seed packet." }
+    },
+    "android": {
+      "package": "com.smartseed.farmer",
+      "permissions": ["CAMERA"]
+    },
+    "plugins": [
+      "expo-router",
+      "expo-localization",
+      "expo-status-bar",
+      ["expo-camera", { "cameraPermission": "SmartSeed uses the camera only to scan the QR code on a seed packet." }],
+      "expo-notifications"
+    ],
+    "experiments": { "typedRoutes": false }
+  }
+}

@@ -1,0 +1,14 @@
+node_modules/
+dist/
+coverage/
+.env
+.env.*
+!.env.example
+*.pem
+.DS_Store
+perf-results.txt
+coverage/
+__pycache__/
+.venv/
+*.pyc
+.pytest_cache/

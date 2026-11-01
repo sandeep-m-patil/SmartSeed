@@ -1,0 +1,7 @@
+# Staging / production chaincode-level endorsement policy (docs/03-blockchain.md section 4).
+# Applies to ALL functions of SmartSeedContract: ownership-changing and outcome functions
+# (TransferBatch, AcceptBatch, RejectBatch, UpdateBatchStatus, RecordInvestigationOutcome, ...)
+# require SmartSeed AND Authority endorsement. Fabric lifecycle supports one policy per chaincode
+# definition; per-function policies would need state-based endorsement (not implemented).
+# Lines starting with '#' are ignored by scripts/lib.sh (read_policy).
+AND('SmartSeedMSP.peer','AuthorityMSP.peer')

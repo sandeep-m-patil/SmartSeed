@@ -1,0 +1,2 @@
+# Only needed for supervised training when labelled data is supplied.
+xgboost>=2.0

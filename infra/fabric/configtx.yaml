@@ -1,0 +1,176 @@
+# SmartSeed channel configuration (Fabric 2.5, Raft, channel participation API - no system channel).
+# UNVERIFIED: never executed against real binaries on the authoring machine (Docker was unavailable).
+# Generate the channel genesis block with:
+#   FABRIC_CFG_PATH=$PWD configtxgen -profile SeedChannel -outputBlock channel-artifacts/seedchannel.block -channelID seedchannel
+---
+Organizations:
+  - &SmartSeedOrg
+    Name: SmartSeedMSP
+    ID: SmartSeedMSP
+    MSPDir: organizations/smartseed/msp
+    Policies: &SmartSeedPolicies
+      Readers:
+        Type: Signature
+        Rule: "OR('SmartSeedMSP.admin','SmartSeedMSP.peer','SmartSeedMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('SmartSeedMSP.admin','SmartSeedMSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('SmartSeedMSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('SmartSeedMSP.peer')"
+    OrdererEndpoints:
+      - orderer1.smartseed.example.com:7050
+      - orderer3.smartseed.example.com:7050
+    AnchorPeers:
+      - Host: peer0.smartseed.example.com
+        Port: 7051
+
+  - &AuthorityOrg
+    Name: AuthorityMSP
+    ID: AuthorityMSP
+    MSPDir: organizations/authority/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('AuthorityMSP.admin','AuthorityMSP.peer','AuthorityMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('AuthorityMSP.admin','AuthorityMSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('AuthorityMSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('AuthorityMSP.peer')"
+    OrdererEndpoints:
+      - orderer2.authority.example.com:7050
+    AnchorPeers:
+      - Host: peer0.authority.example.com
+        Port: 9051
+
+  - &ManufacturerOrg
+    Name: ManufacturerMSP
+    ID: ManufacturerMSP
+    MSPDir: organizations/manufacturer/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('ManufacturerMSP.admin','ManufacturerMSP.peer','ManufacturerMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('ManufacturerMSP.admin','ManufacturerMSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('ManufacturerMSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('ManufacturerMSP.peer')"
+    AnchorPeers:
+      - Host: peer0.manufacturer.example.com
+        Port: 11051
+
+Capabilities:
+  Channel: &ChannelCapabilities
+    V2_0: true
+  Orderer: &OrdererCapabilities
+    V2_0: true
+  Application: &ApplicationCapabilities
+    V2_5: true
+
+Application: &ApplicationDefaults
+  Organizations:
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+    # Chaincode upgrades need multi-org approval (docs/03-blockchain.md section 8).
+    LifecycleEndorsement:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Endorsement"
+    Endorsement:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Endorsement"
+  Capabilities:
+    <<: *ApplicationCapabilities
+
+Orderer: &OrdererDefaults
+  OrdererType: etcdraft
+  Addresses:
+    - orderer1.smartseed.example.com:7050
+    - orderer2.authority.example.com:7050
+    - orderer3.smartseed.example.com:7050
+  # Dev topology: orderers 1 and 3 are both run by SmartSeed. Production MUST spread
+  # orderers across >= 2 independent organisations (see docs/03-blockchain.md section 1).
+  EtcdRaft:
+    Consenters:
+      - Host: orderer1.smartseed.example.com
+        Port: 7050
+        ClientTLSCert: organizations/smartseed/orderers/orderer1/tls/server.crt
+        ServerTLSCert: organizations/smartseed/orderers/orderer1/tls/server.crt
+      - Host: orderer2.authority.example.com
+        Port: 7050
+        ClientTLSCert: organizations/authority/orderers/orderer2/tls/server.crt
+        ServerTLSCert: organizations/authority/orderers/orderer2/tls/server.crt
+      - Host: orderer3.smartseed.example.com
+        Port: 7050
+        ClientTLSCert: organizations/smartseed/orderers/orderer3/tls/server.crt
+        ServerTLSCert: organizations/smartseed/orderers/orderer3/tls/server.crt
+  BatchTimeout: 2s
+  BatchSize:
+    MaxMessageCount: 10
+    AbsoluteMaxBytes: 99 MB
+    PreferredMaxBytes: 512 KB
+  Organizations:
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+    BlockValidation:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+  Capabilities:
+    <<: *OrdererCapabilities
+
+Channel: &ChannelDefaults
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+  Capabilities:
+    <<: *ChannelCapabilities
+
+Profiles:
+  SeedChannel:
+    <<: *ChannelDefaults
+    Orderer:
+      <<: *OrdererDefaults
+      Organizations:
+        - *SmartSeedOrg
+        - *AuthorityOrg
+    Application:
+      <<: *ApplicationDefaults
+      Organizations:
+        - *SmartSeedOrg
+        - *AuthorityOrg
+        - *ManufacturerOrg

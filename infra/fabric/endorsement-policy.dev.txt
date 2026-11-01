@@ -1,0 +1,6 @@
+# !!! DEV ONLY - WEAKENED POLICY !!!
+# A single org (SmartSeed OR Authority) can endorse ownership/outcome writes, so one operator
+# could rewrite history. Never use outside a developer machine. Selected only when
+# network.sh deploy-cc is run with --dev-endorsement.
+# Lines starting with '#' are ignored by scripts/lib.sh (read_policy).
+OR('SmartSeedMSP.peer','AuthorityMSP.peer')

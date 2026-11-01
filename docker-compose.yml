@@ -1,0 +1,91 @@
+# Local development stack. Postgres is mapped to 5433 to avoid clashing with a host Postgres.
+# The Hyperledger Fabric network is started separately (infra/fabric/README.md); without it the
+# worker keeps ledger records PENDING and the platform never shows anything as blockchain-confirmed.
+x-api-env: &api-env
+  env_file: apps/api/.env
+  environment:
+    DATABASE_URL: postgres://smartseed_app:smartseed_app@postgres:5432/smartseed
+    REDIS_URL: redis://redis:6379
+    AI_SERVICE_URL: http://ai:8000
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports: ["5433:5432"]
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./infra/docker/postgres/init.sh:/docker-entrypoint-initdb.d/init.sh:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    ports: ["6379:6379"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  migrate:
+    build: { context: ., dockerfile: apps/api/Dockerfile, target: migrate }
+    environment:
+      MIGRATE_DATABASE_URL: postgres://postgres:postgres@postgres:5432/smartseed
+    depends_on:
+      postgres: { condition: service_healthy }
+    restart: "no"
+
+  api:
+    build: { context: ., dockerfile: apps/api/Dockerfile }
+    <<: *api-env
+    ports: ["4000:4000"]
+    depends_on:
+      migrate: { condition: service_completed_successfully }
+      redis: { condition: service_healthy }
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:4000/readyz"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  worker:
+    build: { context: ., dockerfile: apps/api/Dockerfile }
+    command: ["node", "apps/api/dist/worker.js"]
+    <<: *api-env
+    depends_on:
+      migrate: { condition: service_completed_successfully }
+    # The worker has no HTTP port; liveness is the process plus the metrics gauges exported by the API.
+
+  ai:
+    build: { context: services/ai }
+    environment:
+      AI_SHARED_SECRET: ${AI_SHARED_SECRET:?set AI_SHARED_SECRET in your shell or .env}
+    ports: ["8000:8000"]
+    volumes:
+      - aimodels:/app/models
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/healthz')"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  web:
+    build: { context: ., dockerfile: apps/web/Dockerfile }
+    ports: ["8080:80"]
+    depends_on:
+      - api
+
+  mailhog:
+    image: mailhog/mailhog
+    ports: ["8025:8025", "1025:1025"]
+    profiles: ["dev-mail"]
+
+volumes:
+  pgdata:
+  aimodels:

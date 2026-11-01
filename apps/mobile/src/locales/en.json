@@ -1,0 +1,230 @@
+{
+  "meta": {
+    "nativeName": "English",
+    "speechLocale": "en-IN"
+  },
+  "app": {
+    "name": "SmartSeed",
+    "tagline": "Check your seeds before you sow"
+  },
+  "common": {
+    "back": "Back",
+    "retry": "Try again",
+    "loading": "Please wait...",
+    "continue": "Continue",
+    "cancel": "Cancel",
+    "home": "Home",
+    "unknown": "Not available"
+  },
+  "language": {
+    "title": "Choose your language",
+    "subtitle": "You can change this later in Profile."
+  },
+  "home": {
+    "title": "SmartSeed",
+    "welcome": "Scan the QR code on the seed packet to check it.",
+    "scan": "Scan seed packet",
+    "history": "My past checks",
+    "notifications": "Alerts",
+    "profile": "Profile",
+    "report": "Report a suspicious packet"
+  },
+  "scanner": {
+    "title": "Scan QR code",
+    "hint": "Point the camera at the QR code on the seed packet.",
+    "permissionTitle": "Camera needed",
+    "permissionBody": "SmartSeed uses the camera only to read the QR code on the packet. No photos are saved.",
+    "grant": "Allow camera",
+    "notSmartSeed": "This is not a SmartSeed code. Do not rely on it. Look for the SmartSeed QR code on the packet.",
+    "scanAgain": "Scan again"
+  },
+  "verify": {
+    "title": "Check result",
+    "checking": "Checking this packet...",
+    "offlineBanner": "Saved information may be outdated. Check again when online.",
+    "savedOn": "Saved on {{date}}",
+    "checkedOn": "Checked on {{date}}",
+    "noSavedCopy": "No internet and no saved information for this packet. Connect and try again.",
+    "errorNetwork": "No internet connection.",
+    "errorTimeout": "The connection is too slow. Please try again.",
+    "errorNotFound": "This code was not found. Do not trust this packet. You can report it.",
+    "errorRateLimited": "Too many checks. Please wait a minute and try again.",
+    "errorServer": "The service is busy. Please try again shortly.",
+    "errorInvalid": "We could not read the answer from the server. Please try again.",
+    "errorGeneric": "Something went wrong. Please try again.",
+    "expiredWarning": "This batch has passed its expiry date. Do not use these seeds.",
+    "viewPassport": "Seed details",
+    "viewJourney": "Where it has been",
+    "viewRisk": "Risk status",
+    "report": "Report this packet",
+    "listen": "Listen",
+    "stopListening": "Stop",
+    "recheck": "Check again"
+  },
+  "indicator": {
+    "GREEN": {
+      "title": "All checks passed",
+      "body": "All four checks below passed. Still check that the packet seal is intact."
+    },
+    "YELLOW": {
+      "title": "Be careful",
+      "body": "Some checks could not be confirmed. Ask the shop for help or check again before buying or sowing."
+    },
+    "RED": {
+      "title": "Do not use",
+      "body": "A check failed or this product is flagged. Do not buy or sow these seeds. Please report it."
+    },
+    "LAST_CHECKED": {
+      "title": "Last checked earlier",
+      "body": "This is an older result. It does not show that the packet is safe now. Check again when online."
+    }
+  },
+  "level": {
+    "ok": "OK",
+    "warn": "Check",
+    "bad": "Problem"
+  },
+  "status": {
+    "digitalIdentity": {
+      "name": "Packet identity",
+      "VALID": "The QR code is registered by the manufacturer. This alone does not prove the seeds are real.",
+      "REVOKED": "This QR code was cancelled by the manufacturer. Do not use it.",
+      "UNKNOWN": "We could not confirm who registered this code."
+    },
+    "blockchain": {
+      "name": "Tamper-proof record",
+      "VERIFIED": "The packet's history matches the secure shared record.",
+      "UNVERIFIED": "We could not check the secure record yet. Try again later.",
+      "FAILED": "The packet's history does NOT match the secure record. It may be fake or altered."
+    },
+    "scanActivity": {
+      "name": "Scan activity",
+      "NORMAL": "This code has been scanned a normal number of times.",
+      "SUSPICIOUS": "This code has been scanned in unusual ways. It may be copied."
+    },
+    "investigation": {
+      "name": "Investigation",
+      "NONE": "No investigation is open for this batch.",
+      "UNDER_INVESTIGATION": "This batch is being investigated. Be careful.",
+      "CONFIRMED_COUNTERFEIT": "This batch was confirmed to be counterfeit. Do not use it."
+    }
+  },
+  "passport": {
+    "title": "Seed details",
+    "product": "Product",
+    "brand": "Brand",
+    "crop": "Crop",
+    "variety": "Variety",
+    "manufacturer": "Manufacturer",
+    "batch": "Batch number",
+    "mfgDate": "Made on",
+    "expiryDate": "Expires on",
+    "expired": "Expired",
+    "certifications": "Certificates",
+    "noCertifications": "No certificates listed.",
+    "issuedBy": "Issued by {{issuer}}",
+    "number": "No. {{number}}",
+    "validTo": "Valid until {{date}}",
+    "package": "Packet serial number"
+  },
+  "journey": {
+    "title": "Where it has been",
+    "empty": "No journey steps are listed for this packet.",
+    "step": {
+      "MANUFACTURED": "Made by manufacturer",
+      "RECEIVED": "Received",
+      "SOLD": "Sold",
+      "OTHER": "Other step"
+    },
+    "orgType": {
+      "manufacturer": "Manufacturer",
+      "distributor": "Distributor",
+      "wholesaler": "Wholesaler",
+      "retailer": "Retailer",
+      "OTHER": "Other seller"
+    },
+    "status": {
+      "CONFIRMED": "Confirmed",
+      "OTHER": "Status not clear"
+    }
+  },
+  "risk": {
+    "title": "Risk status",
+    "score": "Risk score: {{score}}",
+    "level": {
+      "LOW": "Low risk",
+      "MEDIUM": "Medium risk",
+      "HIGH": "High risk",
+      "CRITICAL": "Critical risk"
+    },
+    "explain": {
+      "LOW": "Nothing unusual was found.",
+      "MEDIUM": "Some unusual signs were found. Be careful.",
+      "HIGH": "Many warning signs were found. Do not use without advice.",
+      "CRITICAL": "Serious warning signs were found. Do not use."
+    },
+    "warnings": "Warnings",
+    "noWarnings": "No warnings.",
+    "notAssessedTitle": "No risk assessment yet",
+    "notAssessedBody": "This packet has not been scored for risk yet. This is not the same as low risk."
+  },
+  "report": {
+    "title": "Report a suspicious packet",
+    "intro": "Tell us if this packet looks fake or tampered with. Your report is anonymous.",
+    "descriptionLabel": "What looked wrong? (optional)",
+    "regionLabel": "Village or district (optional)",
+    "submit": "Send report",
+    "sending": "Sending...",
+    "success": "Thank you. Your report was sent.",
+    "failure": "The report could not be sent. Please try again.",
+    "noToken": "Scan a SmartSeed packet first, then report it from the result screen."
+  },
+  "history": {
+    "title": "My past checks",
+    "empty": "You have not checked any packet yet.",
+    "clear": "Clear history",
+    "batch": "Batch {{code}}",
+    "open": "Open"
+  },
+  "notifications": {
+    "title": "Alerts",
+    "empty": "No alerts right now.",
+    "enable": "Turn on alerts",
+    "enabled": "Alerts are on.",
+    "denied": "Alerts are blocked. You can allow them in phone settings.",
+    "error": "Could not load alerts. Please try again."
+  },
+  "profile": {
+    "title": "Profile",
+    "deviceId": "Anonymous device ID",
+    "deviceHint": "No name or phone number is needed.",
+    "language": "Language",
+    "version": "Version {{version}}"
+  },
+  "a11y": {
+    "indicatorLabel": "Result: {{title}}",
+    "scanFrame": "Camera view for scanning a QR code"
+  },
+  "tts": {
+    "intro": "Result for {{product}}, batch {{batch}}.",
+    "stale": "This is saved information and may be outdated.",
+    "expired": "This batch has expired."
+  },
+  "warning": {
+    "QR_UNKNOWN": "This code is not recognised. Do not trust this packet.",
+    "QR_REVOKED": "This QR code was cancelled by the manufacturer.",
+    "QR_SUPERSEDED": "This QR code was replaced by a newer one. This may be an old or copied label.",
+    "BATCH_EXPIRED": "This batch has passed its expiry date.",
+    "CHAIN_VERIFICATION_FAILED": "The packet history does not match the secure record.",
+    "CHAIN_NOT_YET_CONFIRMED": "The secure record has not been confirmed yet. Check again later.",
+    "SUSPICIOUS_SCAN_ACTIVITY": "This code has been scanned in unusual ways.",
+    "UNDER_INVESTIGATION": "This batch is being investigated.",
+    "CONFIRMED_COUNTERFEIT": "This batch was confirmed to be counterfeit.",
+    "HIGH_RISK": "This packet has a high risk score.",
+    "OTHER": "Something needs attention. Check with the seller."
+  },
+  "unknown": {
+    "title": "This code is not recognised",
+    "body": "SmartSeed has no record of this code. Do not buy or sow from this packet. You can report it."
+  }
+}

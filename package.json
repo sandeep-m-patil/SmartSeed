@@ -1,0 +1,15 @@
+{
+  "name": "smartseed",
+  "private": true,
+  "type": "module",
+  "workspaces": ["apps/api", "apps/web", "packages/*"],
+  "scripts": {
+    "build": "npm run build -w @smartseed/api && npm run build -w @smartseed/web",
+    "test": "npm run test -w @smartseed/api",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "dev:api": "npm run dev -w @smartseed/api",
+    "dev:web": "npm run dev -w @smartseed/web",
+    "db:migrate": "npm run migrate -w @smartseed/api -- up"
+  },
+  "engines": { "node": ">=20" }
+}

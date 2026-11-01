@@ -1,0 +1,9 @@
+{
+  "name": "pdc_{{TENANT_ID}}",
+  "policy": "OR({{MEMBER_ORGS}})",
+  "requiredPeerCount": 1,
+  "maxPeerCount": 2,
+  "blockToLive": 0,
+  "memberOnlyRead": true,
+  "memberOnlyWrite": true
+}

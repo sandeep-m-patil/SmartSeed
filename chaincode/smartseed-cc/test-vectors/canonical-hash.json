@@ -1,0 +1,62 @@
+{
+  "description": "Canonical JSON (RFC 8785 style) + SHA-256 parity vectors for SmartSeed chaincode and backend",
+  "algorithm": "sha256(utf8(canonicalize(JSON.parse(inputJson)))) as lowercase hex",
+  "cases": [
+    {
+      "name": "key-ordering",
+      "inputJson": "{\"b\":2,\"a\":1}",
+      "canonical": "{\"a\":1,\"b\":2}",
+      "expectedHash": "43258cff783fe7036d8a43033f830adfc60ec037382473548ac742b888292777"
+    },
+    {
+      "name": "nested-and-whitespace",
+      "inputJson": "{ \"z\": [3, 1, {\"y\": null, \"x\": true}],\n  \"a\": \"s\" }",
+      "canonical": "{\"a\":\"s\",\"z\":[3,1,{\"x\":true,\"y\":null}]}",
+      "expectedHash": "23129899c2da69ab403e298413bf8eee8371bb231ac92487a16c19e25cb9908d"
+    },
+    {
+      "name": "number-formatting",
+      "inputJson": "[1.0, 1e21, 0.000001, 1e-7, -0, 100, 4.5, 1E2]",
+      "canonical": "[1,1e+21,0.000001,1e-7,0,100,4.5,100]",
+      "expectedHash": "19421d9f787fc991b0bad554cc8768a30ce1dcaf0908bdb984f1a8bf100991c4"
+    },
+    {
+      "name": "string-escapes",
+      "inputJson": "{\"a\\n\":\"\\u0001\\\"\\\\\\/\",\"\\u00e9\":\"\\u20ac\"}",
+      "canonical": "{\"a\\n\":\"\\u0001\\\"\\\\/\",\"é\":\"€\"}",
+      "expectedHash": "c8ce31f86abf88582c5485c7503eaef2a5929715aaf4ad7f4d11f6a7620b1866"
+    },
+    {
+      "name": "utf16-key-order",
+      "inputJson": "{\"\\uffff\":2,\"\\ud83d\\ude00\":1,\"b\":0}",
+      "canonical": "{\"b\":0,\"😀\":1,\"￿\":2}",
+      "expectedHash": "f4fa26409e88e2d548d912096619ea49c6bcee0d95b0b6eac3ec15dbf7c325d3"
+    },
+    {
+      "name": "empty-containers",
+      "inputJson": "{\"b\":[],\"a\":{}}",
+      "canonical": "{\"a\":{},\"b\":[]}",
+      "expectedHash": "aeeba1e56a144077f89e26c930dad7cf933e9383cfb8e33ddff618233b29be76"
+    },
+    {
+      "name": "event-record",
+      "inputJson": "{\"eventType\":\"TRANSFER_INITIATED\",\"batchId\":\"B-2026-0001\",\"ts\":1767225600000,\"quantityCommitment\":\"abababababababababababababababababababababababababababababababab\",\"fromOrgHash\":null}",
+      "canonical": "{\"batchId\":\"B-2026-0001\",\"eventType\":\"TRANSFER_INITIATED\",\"fromOrgHash\":null,\"quantityCommitment\":\"abababababababababababababababababababababababababababababababab\",\"ts\":1767225600000}",
+      "expectedHash": "8b54fd013cb8038a15ea195754cdab698cb30d6b88029399d5ad7c80209facfa"
+    }
+  ],
+  "quantityCommitments": [
+    {
+      "quantity": "5000",
+      "salt": "salt-0001",
+      "preimage": "5000|salt-0001",
+      "expectedCommitment": "3ff9d89974caab3a62feab9f023fa151b656741c7acd85452b1201f561ad4130"
+    },
+    {
+      "quantity": "1",
+      "salt": "c0ffee",
+      "preimage": "1|c0ffee",
+      "expectedCommitment": "13c6d962557dd38391fd6e75162f8931adefa7ec6a8a2d432aea318fae74730f"
+    }
+  ]
+}

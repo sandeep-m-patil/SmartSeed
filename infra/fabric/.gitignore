@@ -1,0 +1,8 @@
+# Generated crypto material (contains PRIVATE KEYS) and runtime artifacts - never commit.
+organizations/
+channel-artifacts/
+wallets/
+bin/
+config/
+.env
+*.tar.gz
